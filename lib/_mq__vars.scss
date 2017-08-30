@@ -1,0 +1,63 @@
+@import '../node_modules/@dreipol/scss-utils/functions/map-assign';
+/// Computed breakpoints system, borrowed from bootstrap
+///
+$screen-xs-min: 0 !default;
+$screen-sm-min: 544px !default;
+$screen-md-min: 768px !default;
+$screen-lg-min: 992px !default;
+$screen-xl-min: 1280px !default;
+$screen-xxl-min: 1600px !default;
+
+$screen-xs-max: ($screen-sm-min - 1) !default;
+$screen-sm-max: ($screen-md-min - 1) !default;
+$screen-md-max: ($screen-lg-min - 1) !default;
+$screen-lg-max: ($screen-xl-min - 1) !default;
+$screen-xl-max: ($screen-xxl-min - 1) !default;
+
+/// Break point definitions used by `include-media`
+///
+$breakpoints: (
+    xs: $screen-xs-max,
+    sm: $screen-sm-max,
+    md: $screen-md-max,
+    lg: $screen-lg-max,
+    xl: $screen-xl-max,
+) !default;
+
+/// Media type expressions
+///
+$media-type-expressions: (
+    screen: 'screen',
+) !default;
+
+/// Media feature expressions
+///
+$media-feature-expressions: (
+    width: (
+        xs: '(max-width: #{$screen-xs-max})',
+        sm: ('(min-width: #{$screen-sm-min}) and (max-width: #{$screen-sm-max})'),
+        md: ('(min-width: #{$screen-md-min}) and (max-width: #{$screen-md-max})'),
+        lg: ('(min-width: #{$screen-lg-min}) and (max-width: #{$screen-lg-max})'),
+        xl: ('(min-width: #{$screen-xl-min}) and (max-width: #{$screen-xl-max})'),
+        xxl: '(min-width: #{$screen-xxl-min})',
+    ),
+    orientation: (
+        portrait: '(orientation: portrait)',
+        landscape: '(orientation: landscape)',
+    ),
+    resolution: (
+        res2x: ('(min-resolution: 2dppx)'),
+        res3x: ('(min-resolution: 3dppx)'),
+    ),
+) !default;
+
+/// Media expressions, used by `include-media`
+/// @example scss - Combine width expression `xs` with resolution expression `res2x`:
+///     @include media('xs', 'res2x') { color: red; }
+///
+$media-expressions: dp-map-assign(
+    $media-type-expressions,
+    map-get($media-feature-expressions, width),
+    map-get($media-feature-expressions, orientation),
+    map-get($media-feature-expressions, resolution)
+) !default;

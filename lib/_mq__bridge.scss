@@ -1,0 +1,51 @@
+/// Adds a hidden but readable hook to be used in html and js
+@import '../node_modules/@dreipol/scss-utils/mixins/hide-visually';
+@import '../node_modules/@dreipol/scss-utils/mixins/at-root';
+
+///
+body {
+    &::before,
+    &::after {
+        content: '';
+
+        @include dp-hide-visually;
+    }
+
+    @include dp-at-root(html, '.u-mq-info') {
+        &::before {
+            pointer-events: none;
+            z-index: 9999;
+
+            position: fixed;
+            bottom: 0;
+            left: 0;
+
+            display: block;
+            width: auto;
+            height: auto;
+            max-width: 50%;
+            max-height: none;
+            padding: 15px;
+            margin: 0;
+
+            clip: auto;
+            font-family: monospace;
+            font-size: 12px;
+            line-height: 1.1;
+            word-wrap: break-word;
+            color: #ffffff;
+            background-color: rgba(22, 25, 40, 0.9);
+            border-top-right-radius: 5px;
+            text-align: left;
+        }
+
+        &::before {
+            visibility: visible;
+        }
+
+        &::before {
+            transition: visibility 0ms ease 2000ms;
+            visibility: hidden;
+        }
+    }
+}

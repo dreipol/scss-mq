@@ -1,0 +1,135 @@
+@import './index';
+
+$color1: rgba(219, 221, 217, 1);
+$color2: rgba(199, 214, 160, 1);
+$color3: rgba(183, 206, 99, 1);
+$color4: rgba(142, 178, 57, 1);
+$color5: rgba(82, 89, 66, 1);
+$accent: #333333;
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial;
+    margin: 0;
+
+    .test {
+        font-weight: 100;
+        color: $accent;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: (100 / 6) * 1vh;
+
+        &::after {
+            padding: 10px 20px 14px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+        }
+    }
+
+    .current-mq {
+        &::after {
+            font-weight: 400;
+
+            @include mq('xs') {
+                content: 'xs';
+            }
+
+            @include mq('sm') {
+                content: 'sm';
+            }
+
+            @include mq('md') {
+                content: 'md';
+            }
+
+            @include mq('lg') {
+                content: 'lg';
+            }
+
+            @include mq('xl') {
+                content: 'xl';
+            }
+
+            @include mq('xxl') {
+                content: 'xxl';
+            }
+        }
+    }
+
+    .test-xs {
+        background: $color1;
+
+        &::after {
+            @include mq('>xs') {
+                content: '>xs';
+            }
+
+            @include mq('<=xs') {
+                font-weight: 400;
+                content: '<=xs';
+            }
+        }
+    }
+
+    .test-sm {
+        background: $color2;
+
+        &::after {
+            @include mq('>sm') {
+                content: '>sm';
+            }
+
+            @include mq('<=sm') {
+                font-weight: 400;
+                content: '<=sm';
+            }
+        }
+    }
+
+    .test-md {
+        background: $color3;
+
+        &::after {
+            @include mq('>md') {
+                content: '>md';
+            }
+
+            @include mq('<=md') {
+                font-weight: 400;
+                content: '<=md';
+            }
+        }
+    }
+
+    .test-lg {
+        background: $color4;
+
+        &::after {
+            @include mq('>lg') {
+                content: '>lg';
+            }
+
+            @include mq('<=lg') {
+                font-weight: 400;
+                content: '<=lg';
+            }
+        }
+    }
+
+    .test-xl {
+        background: $color5;
+
+        &::after {
+            @include mq('>xl') {
+                content: '>xl';
+            }
+
+            @include mq('<=xl') {
+                font-weight: 400;
+                content: '<=xl';
+            }
+        }
+    }
+}

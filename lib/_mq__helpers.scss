@@ -1,0 +1,82 @@
+@import '../node_modules/@dreipol/scss-utils/functions/selector-get-element-name';
+@import '../node_modules/sass-to-js/sass/sass-to-js';
+@import '../node_modules/include-media-or/dist/include-media-or';
+/// Checks a list of conditions for it's validity based on the used operator as only `<=` and `>` make sense
+/// @param {List} $conditions - List of conditions, possibly nested
+///
+@mixin _mq--check-condition-validity($conditions) {
+    @each $condition in $conditions {
+        @if (type-of($condition) == 'list') {
+            @include _mq--check-condition-validity($condition);
+        } @else if not map-has-key($media-expressions, $condition) {
+            $operator: get-expression-operator($condition);
+
+            @if not index(('<=', '≤', '>'), $operator) {
+                @error 'Operator `#{$operator}` is not allowed in condition `#{$condition}`';
+            }
+        }
+    }
+}
+
+/// Converts a map of media expressions into a list of all possible viewport combinations
+/// @param {Map} $expressions - Map of media feature expressions, grouped by type
+///
+@function _mq--conditions($expressions) {
+    $result: ((),);
+
+    @each $list-key, $list-value in $expressions {
+        $combinations: ();
+        $list-value: map-merge((null: null), $list-value);
+
+        @each $item-key, $item-value in $list-value {
+            @each $combination in $result {
+                $combinations: append($combinations, map-merge($combination, ($list-key: $item-key)));
+            }
+        }
+
+        $result: $combinations;
+    }
+
+    @return $result;
+}
+
+/// Converts a list of media expressions into a list of sass maps with name and query properties
+/// @param {Map} $expressions - A flat list of media feature expressions
+///
+@function _mq--expressions($expressions) {
+    $result: ();
+
+    @each $name, $value in $expressions {
+        $result: append($result, (name: $name, query: $value));
+    }
+
+    @return $result;
+}
+
+/// Writes the viewport information into a content attribute, contained by the media expression it describes
+/// @param {string} $conditions-node - The node to which the current viewport information is atted
+/// @param {string} $expressions-node - The node to which a list of all registered media features is added
+///
+@mixin _mq--write($conditions-node: 'body::before', $expressions-node: null) {
+    @if ($conditions-node) {
+        $conditions-list: _mq--conditions($media-feature-expressions);
+
+        @each $conditions in $conditions-list {
+            $media-conditions: map-values($conditions);
+
+            #{$conditions-node} {
+                @include mq($media-conditions...) {
+                    content: sassToJs($conditions);
+                }
+            }
+        }
+    }
+
+    @if ($expressions-node) {
+        $expressions-list: _mq--expressions($media-expressions);
+
+        #{$expressions-node} {
+            content: sassToJs($expressions-list);
+        }
+    }
+}
