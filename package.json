@@ -1,7 +1,7 @@
 {
   "name": "@dreipol/scss-mq",
   "version": "0.0.0",
-  "description": "Dreipol scss util @functions and @mixins",
+  "description": "Dreipol scss media queries helper function",
   "main": "index.scss",
   "scripts": {
     "lint": "stylelint *.scss **/*.scss",
@@ -9,22 +9,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dreipol/scss-utils.git"
+    "url": "git+https://github.com/dreipol/scss-mq.git"
   },
   "keywords": [
     "sass",
-    "helpers",
     "scss",
-    "utils",
-    "mixins",
-    "functions"
+    "media-queries",
+    "media",
+    "mq",
+    "helpers",
+    "css"
   ],
   "author": "Dreipol <dev@dreipol.ch> (http://dreipol.ch)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dreipol/scss-utils/issues"
+    "url": "https://github.com/dreipol/scss-mq/issues"
   },
-  "homepage": "https://github.com/dreipol/scss-utils#readme",
+  "homepage": "https://github.com/dreipol/scss-mq#readme",
   "dependencies": {
     "@dreipol/scss-utils": "0.0.0",
     "include-media-or": "^1.0.1",
