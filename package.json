@@ -9,6 +9,7 @@
     "build": "npm run preinstall && rsync -rm `pwd`/node_modules/* --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
     "preinstall": "npm run clean && mkdir vendor",
     "postinstall": "npm run build",
+    "prepublish": "npm run test",
     "test": "npm run build && npm run lint && sass test.scss > test.css"
   },
   "repository": {
