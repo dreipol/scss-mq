@@ -6,9 +6,8 @@
   "scripts": {
     "lint": "stylelint index.scss lib/*.scss",
     "clean": "rm -rf vendor",
-    "build": "npm run preinstall && rsync -rm `pwd`/node_modules/* --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
-    "preinstall": "npm run clean && mkdir vendor",
-    "postinstall": "npm run build",
+    "build": "npm run pre-build && rsync -rm `pwd`/node_modules/* --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
+    "pre-build": "npm run clean && mkdir vendor",
     "prepublish": "npm run test",
     "test": "npm run build && npm run lint && sass test.scss > test.css"
   },
