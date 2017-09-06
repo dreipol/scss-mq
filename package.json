@@ -2,12 +2,13 @@
   "name": "@dreipol/scss-mq",
   "version": "0.0.1",
   "description": "Dreipol scss media queries helper function",
-  "main": "index.scss",
+  "main": "_index.scss",
   "scripts": {
     "lint": "stylelint index.scss lib/*.scss",
     "clean": "rm -rf vendor",
-    "pre-build": "npm run clean && mkdir vendor",
-    "build": "npm run pre-build && rsync -rm node_modules/. --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
+    "build": "npm run preinstall && rsync -rm node_modules/. --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
+    "preinstall": "npm run clean && mkdir vendor",
+    "postinstall": "npm run build",
     "test": "npm run build && npm run lint && sass test.scss > test.css"
   },
   "repository": {

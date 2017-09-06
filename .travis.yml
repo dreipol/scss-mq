@@ -1,0 +1,14 @@
+language: ruby
+node_js:
+  - "7.4"
+
+before_install:
+  - gem install sass
+
+script:
+  - npm test
+
+sudo: false
+
+notifications:
+  email: false
