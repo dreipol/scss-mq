@@ -12,7 +12,7 @@
     "_index.scss"
   ],
   "scripts": {
-    "lint": "stylelint index.scss lib/*.scss",
+    "lint": "stylelint _index.scss lib/*.scss",
     "clean": "rm -rf vendor",
     "build": "npm run prebuild && rsync -rm `pwd`/node_modules/* --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
     "prebuild": "npm run clean && mkdir vendor",
