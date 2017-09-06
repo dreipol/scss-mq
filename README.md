@@ -6,6 +6,8 @@ Dreipol scss media queries helper
 [![NPM downloads][npm-downloads-image]][npm-url]
 [![MIT License][license-image]][license-url]
 
+- [Demo](https://dreipol.github.io/scss-mq/demo)
+
 # Installation
 
 ```bash
