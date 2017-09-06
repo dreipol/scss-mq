@@ -7,8 +7,7 @@
     "lint": "stylelint index.scss lib/*.scss",
     "clean": "rm -rf vendor",
     "pre-build": "npm run clean && mkdir vendor",
-    "build": "npm run pre-build && rsync -mzvrR node_modules --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor && npm run post-build",
-    "post-build": "mv vendor/node_modules/* vendor && rm -rf vendor/node_modules",
+    "build": "npm run pre-build && rsync -rm node_modules/. --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
     "test": "npm run build && npm run lint && sass test.scss > test.css"
   },
   "repository": {
