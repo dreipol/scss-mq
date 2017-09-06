@@ -3,6 +3,14 @@
   "version": "0.0.3",
   "description": "Dreipol scss media queries helper function",
   "main": "_index.scss",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "vendor",
+    "lib",
+    "_index.scss"
+  ],
   "scripts": {
     "lint": "stylelint index.scss lib/*.scss",
     "clean": "rm -rf vendor",
