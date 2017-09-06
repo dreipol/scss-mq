@@ -14,8 +14,8 @@
   "scripts": {
     "lint": "stylelint index.scss lib/*.scss",
     "clean": "rm -rf vendor",
-    "build": "npm run pre-build && rsync -rm `pwd`/node_modules/* --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
-    "pre-build": "npm run clean && mkdir vendor",
+    "build": "npm run prebuild && rsync -rm `pwd`/node_modules/* --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
+    "prebuild": "npm run clean && mkdir vendor",
     "prepublish": "npm run test",
     "test": "npm run build && npm run lint && sass test.scss > test.css"
   },
@@ -32,7 +32,11 @@
     "helpers",
     "css"
   ],
-  "author": "Dreipol <dev@dreipol.ch> (http://dreipol.ch)",
+  "author": {
+    "name": "dreipol GmbH",
+    "email": "hello@dreipol.ch",
+    "url": "http://dreipol.ch"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/dreipol/scss-mq/issues"
