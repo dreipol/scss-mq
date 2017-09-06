@@ -7,7 +7,7 @@
 @import './lib/mq__vars';
 @import './lib/mq__bridge';
 @import './lib/mq__helpers';
-@import './node_modules/@dreipol/scss-utils/functions/list-purge';
+@import './vendor/@dreipol/scss-utils/functions/list-purge';
 
 
 /// Guard mixin to enable usage of `include-media` with `null` values and protect against wrong usage.

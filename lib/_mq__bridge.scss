@@ -1,6 +1,6 @@
 /// Adds a hidden but readable hook to be used in html and js
-@import '../node_modules/@dreipol/scss-utils/mixins/hide-visually';
-@import '../node_modules/@dreipol/scss-utils/mixins/at-root';
+@import '../vendor/@dreipol/scss-utils/mixins/hide-visually';
+@import '../vendor/@dreipol/scss-utils/mixins/at-root';
 
 ///
 body {
