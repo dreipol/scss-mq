@@ -2,9 +2,14 @@ language: ruby
 node_js:
   - "7.4"
 
+cache:
+  bundler: true
+  directories:
+    - node_modules
+
 before_install:
-  - npm i
   - gem install sass
+  - npm i
 
 script:
   - npm test
