@@ -7,6 +7,7 @@ cache:
   directories:
     - node_modules
 
+bundler_args: --path .cache
 
 before_install:
   - npm i
