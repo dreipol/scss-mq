@@ -7,6 +7,10 @@ $color4: rgba(142, 178, 57, 1);
 $color5: rgba(82, 89, 66, 1);
 $accent: #333333;
 
+
+@include mq--spy();
+
+
 body {
     font-family: 'Helvetica Neue', Helvetica, Arial;
     margin: 0;
