@@ -1,6 +1,6 @@
 {
   "name": "@dreipol/scss-mq",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Dreipol scss media queries helper function",
   "main": "_index.scss",
   "directories": {
