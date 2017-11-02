@@ -1,6 +1,8 @@
 @import '../vendor/@dreipol/scss-utils/functions/selector-get-element-name';
 @import '../vendor/sass-to-js/sass/sass-to-js';
 @import '../vendor/include-media-or/dist/include-media-or';
+
+
 /// Checks a list of conditions for it's validity based on the used operator as only `<=` and `>` make sense
 /// @param {List} $conditions - List of conditions, possibly nested
 ///

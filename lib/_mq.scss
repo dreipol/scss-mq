@@ -1,0 +1,38 @@
+////
+/// Helper library to make `include-media` more useful in many ways
+////
+
+/// Dependencies and components
+///
+@import '../vendor/@dreipol/scss-utils/functions/list-purge';
+@import './mq__vars';
+@import './mq__bridge';
+@import './mq__helpers';
+
+
+/// Guard mixin to enable usage of `include-media` with `null` values and protect against wrong usage.
+/// @param {...string} $conditions - Media query conditions
+/// @example scss - Above breakpoint `md`:
+///     @include media('>md') { color: red; }
+/// @example scss - Below or equal breakpoint `lg`:
+///     @include media('<=lg') { color: red; }
+///
+@mixin mq($conditions...) {
+    $purged-conditions: dp-list-purge($conditions);
+
+    @if (length($purged-conditions) == 0) {
+        @content;
+    } @else {
+        @include _mq--check-condition-validity($purged-conditions);
+
+        @include media($purged-conditions...) {
+            @content;
+        }
+    }
+}
+
+/// Append mq bridge to dom object
+///
+@mixin mq--spy($conditions-node, $expressions-node) {
+    @include _mq--write($conditions-node, $expressions-node);
+}
