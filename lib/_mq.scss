@@ -33,7 +33,7 @@
 
 /// Append mq bridge to dom object
 ///
-@mixin mq--spy($conditions-node, $expressions-node) {
+@mixin mq--spy($conditions-node: 'body::before', $expressions-node: null) {
     @include _mq--bridge();
     @include _mq--write($conditions-node, $expressions-node);
 }

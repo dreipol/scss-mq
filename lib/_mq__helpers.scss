@@ -59,7 +59,7 @@
 /// @param {string} $conditions-node - The node to which the current viewport information is atted
 /// @param {string} $expressions-node - The node to which a list of all registered media features is added
 ///
-@mixin _mq--write($conditions-node: 'body::before', $expressions-node: null) {
+@mixin _mq--write($conditions-node: null, $expressions-node: null) {
     @if ($conditions-node) {
         $conditions-list: _mq--conditions($media-feature-expressions);
 
