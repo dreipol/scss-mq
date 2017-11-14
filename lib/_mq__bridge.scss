@@ -1,19 +1,18 @@
-/// Adds a hidden but readable hook to be used in html and js
 @import '../vendor/@dreipol/scss-utils/mixins/hide-visually';
 @import '../vendor/@dreipol/scss-utils/mixins/at-root';
 
 
-/// Append basics for the mq bridge to the body
+/// Add a hidden but readable hook to be used in html and js
+/// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
 ///
-@mixin _mq--bridge() {
-    body {
-        &::before,
-        &::after {
-            content: '';
+@mixin _mq--bridge($root-class) {
+    #{$root-class}-type::before,
+    #{$root-class}-conditions::before,
+    #{$root-class}-expressions::before {
+        @include dp-hide-visually;
+    }
 
-            @include dp-hide-visually;
-        }
-
+    #{$root-class}-conditions {
         @include dp-at-root(html, '.u-mq-info') {
             &::before {
                 pointer-events: none;
@@ -42,11 +41,7 @@
                 text-align: left;
             }
 
-            &::before {
-                visibility: visible;
-            }
-
-            &::before {
+            #{$root-class}-conditions::before {
                 transition: visibility 0ms ease 2000ms;
                 visibility: hidden;
             }

@@ -3,7 +3,7 @@
 @import '../vendor/include-media-or/dist/include-media-or';
 
 
-/// Checks a list of conditions for it's validity based on the used operator as only `<=` and `>` make sense
+/// Check a list of conditions for it's validity based on the used operator as only `<=` and `>` make sense
 /// @param {List} $conditions - List of conditions, possibly nested
 ///
 @mixin _mq--check-condition-validity($conditions) {
@@ -20,8 +20,9 @@
     }
 }
 
-/// Converts a map of media expressions into a list of all possible viewport combinations
+/// Convert a map of media expressions into a list of all possible viewport combinations
 /// @param {Map} $expressions - Map of media feature expressions, grouped by type
+/// @return {Map} - Conjugated map of all possible media feature expressions
 ///
 @function _mq--conditions($expressions) {
     $result: ((),);
@@ -42,43 +43,50 @@
     @return $result;
 }
 
-/// Converts a list of media expressions into a list of sass maps with name and query properties
+/// Convert a list of media expressions into a list of sass maps with name and query properties
 /// @param {Map} $expressions - A flat list of media feature expressions
+/// @return {List} - A list of maps containing all available separate media queries used in the project
 ///
 @function _mq--expressions($expressions) {
     $result: ();
 
-    @each $name, $value in $expressions {
-        $result: append($result, (name: $name, query: $value));
+    @each $type, $conditions in $expressions {
+        @each $name, $value in $conditions {
+            $result: append($result, (name: $name, query: $value, type: $type));
+        }
     }
 
     @return $result;
 }
 
 /// Writes the viewport information into a content attribute, contained by the media expression it describes
-/// @param {string} $conditions-node - The node to which the current viewport information is atted
-/// @param {string} $expressions-node - The node to which a list of all registered media features is added
+/// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
 ///
-@mixin _mq--write($conditions-node: null, $expressions-node: null) {
-    @if ($conditions-node) {
-        $conditions-list: _mq--conditions($media-feature-expressions);
-
-        @each $conditions in $conditions-list {
-            $media-conditions: map-values($conditions);
-
-            #{$conditions-node} {
-                @include mq($media-conditions...) {
-                    content: sassToJs($conditions);
-                }
+@mixin _mq--write($root-class) {
+    // Type
+    @each $type-key, $type-value in $media-type-expressions {
+        #{$root-class}-type::before {
+            @include mq($type-value) {
+                content: sassToJs($type-value);
             }
         }
     }
 
-    @if ($expressions-node) {
-        $expressions-list: _mq--expressions($media-expressions);
+    // Conditions
+    @each $conditions in _mq--conditions($media-feature-expressions) {
+        $media-conditions: map-values($conditions);
 
-        #{$expressions-node} {
-            content: sassToJs($expressions-list);
+        #{$root-class}-conditions::before {
+            @include mq($media-conditions...) {
+                content: sassToJs($conditions);
+            }
         }
+    }
+
+    // Expressions
+    $expressions-list: _mq--expressions(map-merge((type: $media-type-expressions), $media-feature-expressions));
+
+    #{$root-class} #{$root-class}-expressions::before {
+        content: sassToJs($expressions-list);
     }
 }
