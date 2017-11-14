@@ -86,7 +86,7 @@
     // Expressions
     $expressions-list: _mq--expressions(map-merge((type: $media-type-expressions), $media-feature-expressions));
 
-    #{$root-class} #{$root-class}-expressions::before {
+    #{$root-class}-expressions::before {
         content: sassToJs($expressions-list);
     }
 }
