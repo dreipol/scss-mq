@@ -32,7 +32,7 @@ html.u-mq-info .u-mq-spy-conditions::before {
   background-color: rgba(22, 25, 40, 0.9);
   border-top-right-radius: 5px;
   text-align: left; }
-html.u-mq-info .u-mq-spy-conditions .u-mq-spy-conditions::before {
+html.u-mq-info .u-mq-spy-conditions::before {
   transition: visibility 0ms ease 2000ms;
   visibility: hidden; }
 
