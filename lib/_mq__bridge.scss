@@ -41,7 +41,7 @@
                 text-align: left;
             }
 
-            #{$root-class}-conditions::before {
+            &::before {
                 transition: visibility 0ms ease 2000ms;
                 visibility: hidden;
             }
