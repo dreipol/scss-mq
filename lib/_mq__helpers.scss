@@ -1,4 +1,4 @@
-@import '../vendor/@dreipol/scss-utils/functions/selector-get-element-name';
+@import '../vendor/@dreipol/scss-utils/functions/list-purge';
 @import '../vendor/sass-to-js/sass/sass-to-js';
 @import '../vendor/include-media-or/dist/include-media-or';
 
@@ -74,7 +74,7 @@
 
     // Conditions
     @each $conditions in _mq--conditions($media-feature-expressions) {
-        $media-conditions: map-values($conditions);
+        $media-conditions: dp-list-purge(map-values($conditions));
 
         #{$root-class}-conditions::before {
             @include mq($media-conditions...) {
