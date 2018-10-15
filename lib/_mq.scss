@@ -23,7 +23,7 @@
     @if (length($purged-conditions) == 0) {
         @content;
     } @else {
-        @include _mq--check-condition-validity($purged-conditions);
+        @include mq--check-condition-validity($purged-conditions);
 
         @include media($purged-conditions...) {
             @content;
@@ -35,6 +35,6 @@
 /// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
 ///
 @mixin mq--spy($root-class) {
-    @include _mq--bridge($root-class);
-    @include _mq--write($root-class);
+    @include mq--bridge($root-class);
+    @include mq--write($root-class);
 }
