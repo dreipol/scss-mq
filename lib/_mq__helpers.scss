@@ -1,3 +1,5 @@
+// stylelint-disable scss/no-duplicate-dollar-variables
+
 @import '../vendor/@dreipol/scss-utils/functions/list-purge';
 @import '../vendor/sass-to-js/sass/sass-to-js';
 @import '../vendor/include-media-or/dist/include-media-or';
@@ -6,10 +8,10 @@
 /// Check a list of conditions for it's validity based on the used operator as only `<=` and `>` make sense
 /// @param {List} $conditions - List of conditions, possibly nested
 ///
-@mixin _mq--check-condition-validity($conditions) {
+@mixin mq--check-condition-validity($conditions) {
     @each $condition in $conditions {
         @if (type-of($condition) == 'list') {
-            @include _mq--check-condition-validity($condition);
+            @include mq--check-condition-validity($condition);
         } @else if not map-has-key($media-expressions, $condition) {
             $operator: get-expression-operator($condition);
 
@@ -24,7 +26,7 @@
 /// @param {Map} $expressions - Map of media feature expressions, grouped by type
 /// @return {Map} - Conjugated map of all possible media feature expressions
 ///
-@function _mq--conditions($expressions) {
+@function mq--conditions($expressions) {
     $result: ((),);
 
     @each $list-key, $list-value in $expressions {
@@ -47,7 +49,7 @@
 /// @param {Map} $expressions - A flat list of media feature expressions
 /// @return {List} - A list of maps containing all available separate media queries used in the project
 ///
-@function _mq--expressions($expressions) {
+@function mq--expressions($expressions) {
     $result: ();
 
     @each $type, $conditions in $expressions {
@@ -62,7 +64,7 @@
 /// Writes the viewport information into a content attribute, contained by the media expression it describes
 /// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
 ///
-@mixin _mq--write($root-class) {
+@mixin mq--write($root-class) {
     // Type
     @each $type-key, $type-value in $media-type-expressions {
         #{$root-class}-type::before {
@@ -73,7 +75,7 @@
     }
 
     // Conditions
-    @each $conditions in _mq--conditions($media-feature-expressions) {
+    @each $conditions in mq--conditions($media-feature-expressions) {
         $media-conditions: dp-list-purge(map-values($conditions));
 
         #{$root-class}-conditions::before {
@@ -84,7 +86,7 @@
     }
 
     // Expressions
-    $expressions-list: _mq--expressions(map-merge((type: $media-type-expressions), $media-feature-expressions));
+    $expressions-list: mq--expressions(map-merge((type: $media-type-expressions), $media-feature-expressions));
 
     #{$root-class}-expressions::before {
         content: sassToJs($expressions-list);

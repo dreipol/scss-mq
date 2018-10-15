@@ -5,7 +5,7 @@
 /// Add a hidden but readable hook to be used in html and js
 /// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
 ///
-@mixin _mq--bridge($root-class) {
+@mixin mq--bridge($root-class) {
     #{$root-class}-type::before,
     #{$root-class}-conditions::before,
     #{$root-class}-expressions::before {
