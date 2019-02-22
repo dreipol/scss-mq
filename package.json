@@ -16,7 +16,7 @@
     "clean": "rm -rf vendor",
     "build": "npm run prebuild && rsync -rm `pwd`/node_modules/* --include=\"*.scss\" --include=\"*/\" --exclude=\"*\" vendor",
     "prebuild": "npm run clean && mkdir vendor",
-    "prepublish": "npm run test",
+    "prepublishOnly": "npm run test",
     "test": "npm run build && npm run lint && sass test.scss > test.css"
   },
   "repository": {
