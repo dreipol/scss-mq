@@ -1,4 +1,4 @@
-@import './index';
+@use './index' as *;
 
 $color1: rgba(219, 221, 217, 1);
 $color2: rgba(199, 214, 160, 1);

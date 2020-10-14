@@ -4,11 +4,12 @@
 
 /// Dependencies and components
 ///
-@import '../vendor/@dreipol/scss-utils/functions/list-purge';
-@import './mq__vars';
-@import './mq__bridge';
-@import './mq__helpers';
-
+@use '../vendor/@dreipol/scss-utils/functions/list-purge' as *;
+@use '../vendor/include-media-or/dist/include-media-or' as *;
+@use '../vendor/sass-to-js/sass/sass-to-js' as *;
+@use './mq__vars' as *;
+@use './mq__helpers' as *;
+@use './mq__bridge' as *;
 
 /// Guard mixin to enable usage of `include-media` with `null` values and protect against wrong usage.
 /// @param {...string} $conditions - Media query conditions
@@ -18,7 +19,7 @@
 ///     @include media('<=lg') { color: red; }
 ///
 @mixin mq($conditions...) {
-    $purged-conditions: dp-list-purge($conditions);
+    $purged-conditions: list-purge($conditions);
 
     @if (length($purged-conditions) == 0) {
         @content;
@@ -37,4 +38,36 @@
 @mixin mq--spy($root-class) {
     @include mq--bridge($root-class);
     @include mq--write($root-class);
+}
+
+/// Writes the viewport information into a content attribute, contained by the media expression it describes
+/// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
+///
+@mixin mq--write($root-class) {
+    // Type
+    @each $type-key, $type-value in $media-type-expressions {
+        #{$root-class}-type::before {
+            @include mq($type-value) {
+                content: sassToJs($type-value);
+            }
+        }
+    }
+
+    // Conditions
+    @each $conditions in mq--conditions($media-feature-expressions) {
+        $media-conditions: list-purge(map-values($conditions));
+
+        #{$root-class}-conditions::before {
+            @include mq($media-conditions...) {
+                content: sassToJs($conditions);
+            }
+        }
+    }
+
+    // Expressions
+    $expressions-list: mq--expressions(map-merge((type: $media-type-expressions), $media-feature-expressions));
+
+    #{$root-class}-expressions::before {
+        content: sassToJs($expressions-list);
+    }
 }

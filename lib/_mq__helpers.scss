@@ -1,8 +1,7 @@
 // stylelint-disable scss/no-duplicate-dollar-variables
 
-@import '../vendor/@dreipol/scss-utils/functions/list-purge';
-@import '../vendor/sass-to-js/sass/sass-to-js';
-@import '../vendor/include-media-or/dist/include-media-or';
+@use '../vendor/@dreipol/scss-utils/functions/list-purge' as *;
+@use '../vendor/include-media-or/dist/include-media-or' as *;
 
 
 /// Check a list of conditions for it's validity based on the used operator as only `<=` and `>` make sense
@@ -59,36 +58,4 @@
     }
 
     @return $result;
-}
-
-/// Writes the viewport information into a content attribute, contained by the media expression it describes
-/// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
-///
-@mixin mq--write($root-class) {
-    // Type
-    @each $type-key, $type-value in $media-type-expressions {
-        #{$root-class}-type::before {
-            @include mq($type-value) {
-                content: sassToJs($type-value);
-            }
-        }
-    }
-
-    // Conditions
-    @each $conditions in mq--conditions($media-feature-expressions) {
-        $media-conditions: dp-list-purge(map-values($conditions));
-
-        #{$root-class}-conditions::before {
-            @include mq($media-conditions...) {
-                content: sassToJs($conditions);
-            }
-        }
-    }
-
-    // Expressions
-    $expressions-list: mq--expressions(map-merge((type: $media-type-expressions), $media-feature-expressions));
-
-    #{$root-class}-expressions::before {
-        content: sassToJs($expressions-list);
-    }
 }

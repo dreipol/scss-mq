@@ -1,4 +1,4 @@
-@import '../vendor/@dreipol/scss-utils/functions/map-assign';
+@use '../vendor/@dreipol/scss-utils/functions/map-assign' as *;
 
 
 /// Computed breakpoints system, borrowed from bootstrap
@@ -58,7 +58,7 @@ $media-feature-expressions: (
 /// @example scss - Combine width expression `xs` with resolution expression `res2x`:
 ///     @include media('xs', 'res2x') { color: red; }
 ///
-$media-expressions: dp-map-assign(
+$media-expressions: map-assign(
     $media-type-expressions,
     map-get($media-feature-expressions, width),
     map-get($media-feature-expressions, orientation),
