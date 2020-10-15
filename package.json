@@ -18,7 +18,7 @@
     "prebuild": "npm run clean && mkdir vendor",
     "doc": "npx sassdoc lib --dest docs",
     "prepublishOnly": "npm run doc && npm run test",
-    "test": "npm run build && npm run lint && npx sass test/test.scss > test.css"
+    "test": "npm run build && npm run lint && npx sass test/test.scss > docs/demo/test.css"
   },
   "repository": {
     "type": "git",
