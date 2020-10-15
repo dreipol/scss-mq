@@ -12,8 +12,8 @@ Dreipol scss media queries helper
 
 # Documentation
 
-- [API](https://www.dreipol.dev/scss-utils/)
-- [Demo](https://www.dreipol.dev/scss-utils/demo)
+- [API](https://www.dreipol.dev/scss-mq/)
+- [Demo](https://www.dreipol.dev/scss-mq/demo)
 
 # Usage 
 
