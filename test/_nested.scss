@@ -1,0 +1,6 @@
+@use './vars' as *;
+@use '../index' as mq;
+
+@if (mq.$breakpoints != $custom-breakpoints) {
+    @error 'It was not possible to customize the mq variables';
+}

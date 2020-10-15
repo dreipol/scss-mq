@@ -1,17 +1,22 @@
+/* stylelint-disable scss/no-duplicate-dollar-variables */
+
 ////
 /// Helper library to make `include-media` more useful in many ways
 ////
 
-/// Dependencies and components
-///
+@use './mq__vars' as vars;
+@use '../vendor/@dreipol/scss-utils/functions/map-assign' as *;
+@use '../vendor/@dreipol/scss-utils/mixins/hide-visually' as *;
+@use '../vendor/@dreipol/scss-utils/mixins/at-root' as *;
+@use '../vendor/include-media-or/dist/include-media-or' as * with (
+    $breakpoints: vars.$breakpoints,
+    $media-expressions: vars.$media-expressions,
+);
 @use '../vendor/@dreipol/scss-utils/functions/list-purge' as *;
-@use '../vendor/include-media-or/dist/include-media-or' as *;
 @use '../vendor/sass-to-js/sass/sass-to-js' as *;
-@use './mq__vars' as *;
-@use './mq__helpers' as *;
-@use './mq__bridge' as *;
 
 /// Guard mixin to enable usage of `include-media` with `null` values and protect against wrong usage.
+/// @access public
 /// @param {...string} $conditions - Media query conditions
 /// @example scss - Above breakpoint `md`:
 ///     @include media('>md') { color: red; }
@@ -32,7 +37,56 @@
     }
 }
 
+/// Add a hidden but readable hook to be used in html and js
+/// @access private
+/// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
+///
+@mixin mq--bridge($root-class) {
+    #{$root-class}-type::before,
+    #{$root-class}-conditions::before,
+    #{$root-class}-expressions::before {
+        @include hide-visually;
+    }
+
+    #{$root-class}-conditions {
+        @include at-root(html, '.u-mq-info') {
+            &::before {
+                pointer-events: none;
+                z-index: 9999;
+
+                position: fixed;
+                bottom: 0;
+                left: 0;
+
+                display: block;
+                width: auto;
+                height: auto;
+                max-width: 50%;
+                max-height: none;
+                padding: 15px;
+                margin: 0;
+
+                clip: auto;
+                font-family: monospace;
+                font-size: 12px;
+                line-height: 1.1;
+                word-wrap: break-word;
+                color: #ffffff;
+                background-color: rgba(22, 25, 40, 0.9);
+                border-top-right-radius: 5px;
+                text-align: left;
+            }
+
+            &::before {
+                transition: visibility 0ms ease 2000ms;
+                visibility: hidden;
+            }
+        }
+    }
+}
+
 /// Append mq bridge to dom object
+/// @access public
 /// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
 ///
 @mixin mq--spy($root-class) {
@@ -41,11 +95,12 @@
 }
 
 /// Writes the viewport information into a content attribute, contained by the media expression it describes
+/// @access private
 /// @param {string} $root-class - Class that serves as root name for the elements containing the mq data
 ///
 @mixin mq--write($root-class) {
     // Type
-    @each $type-key, $type-value in $media-type-expressions {
+    @each $type-key, $type-value in vars.$media-type-expressions {
         #{$root-class}-type::before {
             @include mq($type-value) {
                 content: sassToJs($type-value);
@@ -54,7 +109,7 @@
     }
 
     // Conditions
-    @each $conditions in mq--conditions($media-feature-expressions) {
+    @each $conditions in mq--conditions(vars.$media-feature-expressions) {
         $media-conditions: list-purge(map-values($conditions));
 
         #{$root-class}-conditions::before {
@@ -65,9 +120,69 @@
     }
 
     // Expressions
-    $expressions-list: mq--expressions(map-merge((type: $media-type-expressions), $media-feature-expressions));
+    $expressions-list: mq--expressions(map-merge((type: vars.$media-type-expressions), vars.$media-feature-expressions));
 
     #{$root-class}-expressions::before {
         content: sassToJs($expressions-list);
     }
+}
+
+
+/// Check a list of conditions for it's validity based on the used operator as only `<=` and `>` make sense
+/// @access private
+/// @param {List} $conditions - List of conditions, possibly nested
+///
+@mixin mq--check-condition-validity($conditions) {
+    @each $condition in $conditions {
+        @if (type-of($condition) == 'list') {
+            @include mq--check-condition-validity($condition);
+        } @else if not map-has-key($media-expressions, $condition) {
+            $operator: get-expression-operator($condition);
+
+            @if not index(('<=', '≤', '>'), $operator) {
+                @error 'Operator `#{$operator}` is not allowed in condition `#{$condition}`';
+            }
+        }
+    }
+}
+
+/// Convert a map of media expressions into a list of all possible viewport combinations
+/// @access private
+/// @param {Map} $expressions - Map of media feature expressions, grouped by type
+/// @return {Map} - Conjugated map of all possible media feature expressions
+///
+@function mq--conditions($expressions) {
+    $result: ((),);
+
+    @each $list-key, $list-value in $expressions {
+        $combinations: ();
+        $list-value: map-merge((null: null), $list-value);
+
+        @each $item-key, $item-value in $list-value {
+            @each $combination in $result {
+                $combinations: append($combinations, map-merge($combination, ($list-key: $item-key)));
+            }
+        }
+
+        $result: $combinations;
+    }
+
+    @return $result;
+}
+
+/// Convert a list of media expressions into a list of sass maps with name and query properties
+/// @access private
+/// @param {Map} $expressions - A flat list of media feature expressions
+/// @return {List} - A list of maps containing all available separate media queries used in the project
+///
+@function mq--expressions($expressions) {
+    $result: ();
+
+    @each $type, $conditions in $expressions {
+        @each $name, $value in $conditions {
+            $result: append($result, (name: $name, query: $value, type: $type));
+        }
+    }
+
+    @return $result;
 }

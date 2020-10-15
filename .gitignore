@@ -66,6 +66,3 @@ typings/
 
 # Editor config files
 .idea/
-
-# Unit tests
-/test.css

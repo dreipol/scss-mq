@@ -1,4 +1,8 @@
-@use './index' as *;
+@use './vars' as *;
+@use '../index' as mq with (
+    $breakpoints: $custom-breakpoints
+);
+@use './nested';
 
 $color1: rgba(219, 221, 217, 1);
 $color2: rgba(199, 214, 160, 1);
@@ -8,7 +12,12 @@ $color5: rgba(82, 89, 66, 1);
 $accent: #333333;
 
 
-@include mq--spy('.u-mq-spy');
+@include mq.mq--spy('.u-mq-spy');
+
+@if (mq.$breakpoints != $custom-breakpoints) {
+    @error 'It was not possible to customize the mq variables';
+}
+
 
 
 body {
@@ -36,27 +45,27 @@ body {
         &::after {
             font-weight: 400;
 
-            @include mq('xs') {
+            @include mq.mq('xs') {
                 content: 'xs';
             }
 
-            @include mq('sm') {
+            @include mq.mq('sm') {
                 content: 'sm';
             }
 
-            @include mq('md') {
+            @include mq.mq('md') {
                 content: 'md';
             }
 
-            @include mq('lg') {
+            @include mq.mq('lg') {
                 content: 'lg';
             }
 
-            @include mq('xl') {
+            @include mq.mq('xl') {
                 content: 'xl';
             }
 
-            @include mq('xxl') {
+            @include mq.mq('xxl') {
                 content: 'xxl';
             }
         }
@@ -66,11 +75,11 @@ body {
         background: $color1;
 
         &::after {
-            @include mq('>xs') {
+            @include mq.mq('>xs') {
                 content: '>xs';
             }
 
-            @include mq('<=xs') {
+            @include mq.mq('<=xs') {
                 font-weight: 400;
                 content: '<=xs';
             }
@@ -81,11 +90,11 @@ body {
         background: $color2;
 
         &::after {
-            @include mq('>sm') {
+            @include mq.mq('>sm') {
                 content: '>sm';
             }
 
-            @include mq('<=sm') {
+            @include mq.mq('<=sm') {
                 font-weight: 400;
                 content: '<=sm';
             }
@@ -96,11 +105,11 @@ body {
         background: $color3;
 
         &::after {
-            @include mq('>md') {
+            @include mq.mq('>md') {
                 content: '>md';
             }
 
-            @include mq('<=md') {
+            @include mq.mq('<=md') {
                 font-weight: 400;
                 content: '<=md';
             }
@@ -111,11 +120,11 @@ body {
         background: $color4;
 
         &::after {
-            @include mq('>lg') {
+            @include mq.mq('>lg') {
                 content: '>lg';
             }
 
-            @include mq('<=lg') {
+            @include mq.mq('<=lg') {
                 font-weight: 400;
                 content: '<=lg';
             }
@@ -126,11 +135,11 @@ body {
         background: $color5;
 
         &::after {
-            @include mq('>xl') {
+            @include mq.mq('>xl') {
                 content: '>xl';
             }
 
-            @include mq('<=xl') {
+            @include mq.mq('<=xl') {
                 font-weight: 400;
                 content: '<=xl';
             }

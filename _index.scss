@@ -1,1 +1,2 @@
-@forward './lib/mq';
+@forward './lib/mq__vars';
+@forward './lib/mq' show mq, mq--spy;
